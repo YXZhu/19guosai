@@ -50,12 +50,19 @@
 /* 私有宏定义 ----------------------------------------------------------------*/
 /* 私有变量 ------------------------------------------------------------------*/
 // 速度最大值由驱动器和电机决定，有些最大是1800，有些可以达到4000
-uint32_t set_speed  = 1674;         // 速度 单位为0.05rad/sec
+uint32_t set_speed_x  = 1674;         // 速度 单位为0.05rad/sec
 // 加速度和减速度选取一般根据实际需要，值越大速度变化越快，加减速阶段比较抖动
 // 所以加速度和减速度值一般是在实际应用中多尝试出来的结果
-uint32_t step_accel = 1674;         // 加速度 单位为0.025rad/sec^2
-uint32_t step_decel = 1674;          // 减速度 单位为0.025rad/sec^2
-int32_t stepptt;
+uint32_t step_accel_x = 1674;         // 加速度 单位为0.025rad/sec^2
+uint32_t step_decel_x = 1674;          // 减速度 单位为0.025rad/sec^2
+int32_t stepptt_x;
+
+uint32_t set_speed_y  = 1674;         // 速度 单位为0.05rad/sec
+// 加速度和减速度选取一般根据实际需要，值越大速度变化越快，加减速阶段比较抖动
+// 所以加速度和减速度值一般是在实际应用中多尝试出来的结果
+uint32_t step_accel_y = 1674;         // 加速度 单位为0.025rad/sec^2
+uint32_t step_decel_y = 1674;          // 减速度 单位为0.025rad/sec^2
+int32_t stepptt_y;
 uint8_t ssda;
 /* USER CODE END PD */
 
@@ -162,11 +169,12 @@ void StartDefaultTask(void *argument)
 	  {
 		  ssda = 0;
 		  //STEPMOTOR_DisMoveAbs(AXIS_X,stepptt,step_accel,step_decel,set_speed);//X轴移动到100mm的位置
-		  STEPMOTOR_AxisMoveRel(AXIS_X,stepptt,step_accel,step_decel,set_speed);
+		  STEPMOTOR_AxisMoveRel(AXIS_X,stepptt_x,step_accel_x,step_decel_x,set_speed_x);
+			STEPMOTOR_AxisMoveRel(AXIS_Y,stepptt_y,step_accel_y,step_decel_y,set_speed_y);
 		 // STEPMOTOR_DisMoveRel(AXIS_X,stepptt,step_accel,step_decel,set_speed);
 	  }
 	  //printf("sad");
-	  //HAL_GPIO_TogglePin(C13_GPIO_Port,C13_Pin);
+	  HAL_GPIO_TogglePin(C13_GPIO_Port,C13_Pin);
     osDelay(100);
   }
   /* USER CODE END StartDefaultTask */

@@ -112,7 +112,7 @@ static void STEPMOTOR_GPIO_Init()
   ORIGIN_X_DETECT_GPIO_CLK_ENABLE();
   ORIGIN_Y_DETECT_GPIO_CLK_ENABLE();
 
-  for(i=0; i<1; i++)
+  for(i=0; i<2; i++)
   {
     /* 步进电机驱动器：脉冲输出 */
     GPIO_InitStruct.Pin = Timer[i].Pulse_Pin;
@@ -224,7 +224,7 @@ void STEPMOTOR_TIMx_Init()
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;     // 互补通道空闲电平
 
 	/* 使能比较输出通道 */
-	for (i=0; i <1; i++)
+	for (i=0; i <2; i++)
 	{
 		HAL_TIM_OC_Stop_IT (&htimx_STEPMOTOR,Timer[i].Channel); 
     HAL_TIM_OC_ConfigChannel(&htimx_STEPMOTOR, &sConfigOC, Timer[i].Channel);

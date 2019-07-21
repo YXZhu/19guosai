@@ -16,30 +16,30 @@ uint8_t AngleRun(ServoCtrl_t *ServoCtr);
 void ServoCtrlTask(void * argument);
 void readResu(void);
 void catsome(uint8_t state1);
-void ServoCtrlFreertosInit(void) // 中 ：s1 120 160 s2 50 s3 0 靠右 s1 120 170 s2 55 s3 18 靠左 s1 100 130 s2 42 s3 18
+void ServoCtrlFreertosInit(void) 
 {
 	/* 初始化舵机*/
-	ServoCtrlS1.MinAngleSet = 0;
+		ServoCtrlS1.MinAngleSet = 0;
 	ServoCtrlS1.MaxAngleSet = 180;
-	ServoCtrlS1.ServoAngleSet = 0; // 115 平直     0 向上
-	ServoCtrlS1.ServoAngleNow = 180;
-	ServoCtrlS1.ServoSpeed = 360;
+	ServoCtrlS1.ServoAngleSet = 90;
+	ServoCtrlS1.ServoAngleNow = 90;
+	ServoCtrlS1.ServoSpeed = 180;
 	
-	ServoCtrlS2.MinAngleSet = 18;
-	ServoCtrlS2.MaxAngleSet = 70; //50
-	ServoCtrlS2.ServoAngleSet = 18; //18 //18 最低
-	ServoCtrlS2.ServoAngleNow = 18;
-	ServoCtrlS2.ServoSpeed = 360;
+	ServoCtrlS2.MinAngleSet = 0;
+	ServoCtrlS2.MaxAngleSet = 180;
+	ServoCtrlS2.ServoAngleSet = 90;
+	ServoCtrlS2.ServoAngleNow = 90;
+	ServoCtrlS2.ServoSpeed = 180;
 	
-	ServoCtrlS3.MinAngleSet = 15;
+	ServoCtrlS3.MinAngleSet = 0;
 	ServoCtrlS3.MaxAngleSet = 180;
-	ServoCtrlS3.ServoAngleSet = 95; // 前进方向 顺时针 为15 逆时针为 180
-	ServoCtrlS3.ServoAngleNow = 95;
-	ServoCtrlS3.ServoSpeed = 360;
+	ServoCtrlS3.ServoAngleSet = 90;
+	ServoCtrlS3.ServoAngleNow = 90;
+	ServoCtrlS3.ServoSpeed = 180;
 	
 	ServoCtrlS4.MinAngleSet = 0;
 	ServoCtrlS4.MaxAngleSet = 180;
-	ServoCtrlS4.ServoAngleSet = 90;  //35 160  // 前进方向 顺时针 为15 逆时针为 180
+	ServoCtrlS4.ServoAngleSet = 90;
 	ServoCtrlS4.ServoAngleNow = 90;
 	ServoCtrlS4.ServoSpeed = 180;	
 

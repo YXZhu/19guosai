@@ -1,0 +1,6 @@
+[submodule "ringbuff"]
+	path = ringbuff
+	url = git://github.com/MaJerle/ringbuff.git
+[submodule "Middlewares/Third_Party/ringbuff"]
+	path = Middlewares/Third_Party/ringbuff
+	url = git://github.com/MaJerle/ringbuff.git
