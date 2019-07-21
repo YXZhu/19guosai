@@ -8,15 +8,15 @@
 *.hex
 *.dis
 *.exe
-.d
-.crf
-.axf
+*.d
+*.crf
+*.axf
 # Packages
 ############
 
-.htm
-.lnp
-.dep
+*.htm
+*.lnp
+*.dep
 
 # Logs and Databases
 ######################
