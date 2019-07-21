@@ -97,7 +97,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 	//sys_spiffs_mount_coreflash();
-	
+	  //≤‚ ‘
    STEPMOTOR_TIMx_Init();
    ServoCtrlFreertosInit();
   /* USER CODE END Init */
