@@ -1,2 +1,4 @@
-﻿git commit --amend
+﻿
+echo .
+git commit --amend
 pause
