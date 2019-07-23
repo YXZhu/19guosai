@@ -1,5 +1,5 @@
-#ifndef __STEPMOTOR_TIM_H__
-#define __STEPMOTOR_TIM_H__
+#ifndef __BSP_STEPMOTOR_H__
+#define __BSP_STEPMOTOR_H__
 
 /* 包含头文件 ----------------------------------------------------------------*/
 #include "main.h"

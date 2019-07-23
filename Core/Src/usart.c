@@ -143,12 +143,39 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
     HAL_NVIC_DisableIRQ(USART1_IRQn);
   /* USER CODE BEGIN USART1_MspDeInit 1 */
 
-  /* USER CODE END USART1_MspDeInit 1 */
+  /* USER CODE END USART1_MspDeInit 1 */ 
   }
 } 
 
 /* USER CODE BEGIN 1 */
+#include <string.h>
+#include "cmd.h"
+#include "ProtocolUART.h"
 
+uint8_t uart1_rx_buffer[100];
+
+  /* 接收不定长数据 */
+void  USARTReceive_IDLE(UART_HandleTypeDef *huart)
+{
+	
+	if((__HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE) != RESET))
+	{
+		__HAL_UART_CLEAR_IDLEFLAG(huart);
+		//HAL_UART_DMAStop(huart);
+		HAL_UART_Abort(huart);
+		if(huart->Instance == USART1)
+		{
+			
+			//huart->RxXferCount
+			
+			//解析数据
+			parseProtocol(uart1_rx_buffer,sizeof(uart1_rx_buffer)-hdma_usart1_rx.Instance->NDTR);
+			//HAL_UART_AbortReceive_IT(huart);
+			HAL_UART_Receive_DMA(huart,uart1_rx_buffer,sizeof(uart1_rx_buffer));
+		}
+	}
+	else return;
+} 
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

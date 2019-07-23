@@ -7,7 +7,8 @@ uint8_t getCheckSum(const uint8_t *pData, int len) {
 		sum += pData[i];
 	}
 
-	return (uint8_t) (~sum + 1);
+	//return (uint8_t) (~sum + 1);
+		return (uint8_t)sum&0xff;
 }
 
 /**
@@ -15,6 +16,9 @@ uint8_t getCheckSum(const uint8_t *pData, int len) {
  * 参数：pData 协议数据，len 数据长度
  * 返回值：实际解析协议的长度
  */
+
+//uint8_t cheak = 0;
+
 int parseProtocol(const BYTE *pData, UINT len) {
 	UINT remainLen = len;	// 剩余数据长度
 	UINT dataLen;	// 数据包长度
@@ -58,6 +62,7 @@ int parseProtocol(const BYTE *pData, UINT len) {
 		// 支持checksum校验，需要时在CommDef.h文件中打开PRO_SUPPORT_CHECK_SUM宏
 #ifdef PRO_SUPPORT_CHECK_SUM
 		// 检测校验码
+//		cheak=getCheckSum(pData, frameLen - 1);
 		if (getCheckSum(pData, frameLen - 1) == pData[frameLen - 1]) {
 			// 解析一帧数据
 			procParse(pData, frameLen);

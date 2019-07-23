@@ -1,0 +1,2 @@
+﻿git commit --amend
+pause

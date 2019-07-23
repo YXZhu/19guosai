@@ -39,7 +39,8 @@ extern UART_HandleTypeDef huart1;
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void  USARTReceive_IDLE(UART_HandleTypeDef *huart);
+extern uint8_t uart1_rx_buffer[100];
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

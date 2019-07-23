@@ -19,26 +19,26 @@ extern ringbuff_t uartrxbuff,uarttxbuff;
 #define MotionDOWN 0x02
 
 /* 发送命令 */
-#define Send_NiujvbothADC  0x01
-#define Send_MotoSpeedNow  0x02
-#define Send_StepperDisNow 0x03
+#define Send_1  0x01
+#define Send_2  0x02
+#define Send_3  0x03
 
 /* 接收命令 */
-#define Rec_StepperDis    0x01
-#define Rec_StepperSpeed  0x02
-#define Rec_StepperAccel  0x03
-#define Rec_StepperDecel  0x04
-#define Rec_StepperState  0x05
-#define Rec_MotoSpeed     0x06
-#define Rec_MotoState     0x07
-#define Rec_MotoPI1        0x08  // P  I 参数
-#define Rec_MotoD1_Set     0x09  // D 和 PID更新标志
-#define Rec_MotoPI2       0x0a  // P  I 参数
-#define Rec_MotoD2_Set    0x0b  // D 和 PID更新标志
-#define Rec_Motion        0x0c
+#define Rec_Position    0x01
+#define Rec_2						0x02
+#define Rec_3					  0x03
+#define Rec_4  					0x04
+#define Rec_5  					0x05
+#define Rec_6    				0x06
+#define Rec_7    				0x07
+#define Rec_8    		    0x08  // P  I 参数
+#define Rec_9   			  0x09  // D 和 PID更新标志
+#define Rec_10   		    0x0a  // P  I 参数
+#define Rec_11   				0x0b  // D 和 PID更新标志
+#define Rec_12    	    0x0c
 
-#define Rec_MCUReset     0xFE  // MCU复位
-#define Rec_ConTest     0xFF
+#define Rec_13   			  0xFE  // MCU复位
+#define Rec_14   			  0xFF
 
 void cmd_init(void);
 

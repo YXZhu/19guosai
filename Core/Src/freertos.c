@@ -101,7 +101,7 @@ void MX_FREERTOS_Init(void) {
    STEPMOTOR_TIMx_Init();
    ServoCtrlFreertosInit();
   /* USER CODE END Init */
-	osKernelInitialize();
+		osKernelInitialize();
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -161,7 +161,7 @@ void StartDefaultTask(void *argument)
 		//test_spiffs();
 	sys_spiffs_ls();
 	//STEPMOTOR_DisMoveAbs(AXIS_X,60,50,50,600);
-	
+	cmd_init();
 	STEPMOTOR_AxisMoveRel(AXIS_X,3200,50,50,200);
   for(;;)
   {
@@ -170,7 +170,7 @@ void StartDefaultTask(void *argument)
 		  ssda = 0;
 		  //STEPMOTOR_DisMoveAbs(AXIS_X,stepptt,step_accel,step_decel,set_speed);//X轴移动到100mm的位置
 		  STEPMOTOR_AxisMoveRel(AXIS_X,stepptt_x,step_accel_x,step_decel_x,set_speed_x);
-			STEPMOTOR_AxisMoveRel(AXIS_Y,stepptt_y,step_accel_y,step_decel_y,set_speed_y);
+			STEPMOTOR_DisMoveRel(AXIS_Y,stepptt_y,step_accel_y,step_decel_y,set_speed_y);
 		 // STEPMOTOR_DisMoveRel(AXIS_X,stepptt,step_accel,step_decel,set_speed);
 	  }
 	  //printf("sad");

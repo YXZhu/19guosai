@@ -63,6 +63,14 @@ typedef struct {
 } SProtocolData;
 #pragma pack(pop)
 
+#pragma pack(push,1)
+typedef struct {
+	// 用户自定义数据
+	uint16_t   X;		// 命令id
+	uint16_t   Y;     // 数据
+} Position_x_y;
+#pragma pack(pop)
+
 /**
  * 硬件发送函数 
  */
