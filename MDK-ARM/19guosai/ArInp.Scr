@@ -1,0 +1,14 @@
+--create 19guosai\19guosai.lib
+19guosai\inv_mpu.o
+19guosai\inv_mpu_dmp_motion_driver.o
+19guosai\empl_outputs.o
+19guosai\data_builder.o
+19guosai\hal_outputs.o
+19guosai\message_layer.o
+19guosai\ml_math_func.o
+19guosai\mlmath.o
+19guosai\mpl.o
+19guosai\results_holder.o
+19guosai\start_manager.o
+19guosai\storage_manager.o
+..\Drivers\BSP\mpu9250\mpl\libmpllib.lib

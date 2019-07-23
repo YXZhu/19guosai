@@ -22,6 +22,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "dma.h"
+#include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -31,7 +32,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "dwt_stm32_delay.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,7 +92,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+	DWT_Delay_Init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -100,6 +101,7 @@ int main(void)
   MX_RTC_Init();
   MX_TIM4_Init();
   MX_USART1_UART_Init();
+  MX_I2C3_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 

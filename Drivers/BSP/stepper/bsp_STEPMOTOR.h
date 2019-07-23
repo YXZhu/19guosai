@@ -161,6 +161,27 @@ HAL_GPIO_WritePin(Stepmotor[Axis].Ena_Port,Stepmotor[Axis].Ena_Pin,GPIO_PIN_RESE
 #define UNITS_DISTANCE                        5   //步进电机转一圈,导轨前进5mm
 #define MAX_DISTANCE                          1000 //导轨可以移动的最长距离1000mm
 
+//脉冲输出通道
+typedef struct {
+  uint16_t  Pulse_Pin ; 	// 定时器脉冲输出引脚
+  uint32_t  Channel;		  // 定时器通道
+  uint32_t  IT_CCx ;  		// 定时器通道中断使能位
+  uint32_t  Flag_CCx ;    // 定时器SR中断标记位
+}Tim;
+typedef struct {
+  IRQn_Type IRQn;         // 中断编号
+  uint8_t   Active_Level; // 中断引脚电平
+  uint16_t  Pin ; 	      // 引脚号
+  GPIO_TypeDef *Port;
+}Detect_PIN;              // 原点检测引脚
+
+typedef struct{\
+  uint16_t  Ena_Pin ;     //电机使能引脚编号
+  uint16_t  Dir_Pin ;     //电机方向引脚编号
+  GPIO_TypeDef *Dir_Port; //电机方向引脚端口
+  GPIO_TypeDef *Ena_Port; //电机使能引脚端口
+}StepMotor;
+
 /* 扩展变量 ------------------------------------------------------------------*/
 
 extern TIM_HandleTypeDef htimx_STEPMOTOR;
@@ -169,6 +190,8 @@ extern speedRampData srd[2];
 extern __IO int16_t  location[2];  // 当前位置  单位:毫米(mm)
 extern __IO uint8_t  LimPosi[2];      //正转极限标志位  True:到达极限位置  False:未到达极限位置
 extern __IO uint8_t  LimNega[2];      //反转极限标志位
+extern const Detect_PIN LimNeg_Detect[2];
+extern const Detect_PIN LimPos_Detect[2];
 /* 函数声明 ------------------------------------------------------------------*/
 void HAL_TIM_OC_Callback(uint8_t Axis);
 void STEPMOTOR_TIMx_Init( void );

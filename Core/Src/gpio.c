@@ -85,10 +85,88 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(INT_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+
 }
 
 /* USER CODE BEGIN 2 */
+#include "mpu9250.h"
+#include "stepper\bsp_StepMotor.h"
 
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+//	if(GPIO_Pin == INT_Pin)
+//	{
+//		gyro_data_ready_cb();	
+//	}
+//	
+//}
+/**
+  * 函数功能: 外部中断服务函数
+  * 输入参数: 无
+  * 返 回 值: 无
+  * 说    明: 实现判断是否到达极限和检测原点信号
+  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	
+	if(GPIO_Pin == INT_Pin)
+	{
+		gyro_data_ready_cb();	
+	}
+  uint8_t i = 0;
+  for(i=0; i<1; i++)
+  { 
+//    if(GPIO_Pin==Origin_Detect[i].Pin)
+//    {
+//      __HAL_GPIO_EXTI_CLEAR_IT(Origin_Detect[i].Pin);	
+//      if( HAL_GPIO_ReadPin(Origin_Detect[i].Port, \
+//                           Origin_Detect[i].Pin)==\
+//          Origin_Detect[i].Active_Level  )          
+//      {										            //以一个脉冲信号的前沿作为近点信号,后沿作为原点信号      
+//        DOG[i] = TRUE;				        //可以是上升沿或者是下降沿
+//      }
+//      else
+//        {
+//          HomeCapture[i] = TRUE;     //后沿信号标记捕获到原点
+//          if(DOG[i] == TRUE)
+//          {
+//            srd[i].run_state = STOP;  //正常情况下回到原点
+//          }
+//        }
+//    }
+    if(GPIO_Pin == LimPos_Detect[i].Pin)	//正转方向的极限位置检测引脚
+    {
+        __HAL_GPIO_EXTI_CLEAR_IT( LimPos_Detect[i].Pin );
+        if( HAL_GPIO_ReadPin( LimPos_Detect[i].Port,   \
+                              LimPos_Detect[i].Pin ) ==\
+        LimPos_Detect[i].Active_Level)
+        {	
+          LimPosi[i]	= TRUE;       	 
+          srd[i].run_state = STOP;		//碰到两个极限都要停下来
+        }
+    }
+    if(GPIO_Pin == LimNeg_Detect[i].Pin)	//反转方向的极限位置检测引脚
+    {
+      __HAL_GPIO_EXTI_CLEAR_IT(LimNeg_Detect[i].Pin);
+      if( HAL_GPIO_ReadPin( LimNeg_Detect[i].Port,   \
+                            LimNeg_Detect[i].Pin ) ==\
+      LimNeg_Detect[i].Active_Level )
+      {
+        LimNega[i] = TRUE;      	
+        srd[i].run_state = STOP;		//碰到左右极限都要停下来
+      }
+    }
+  }
+}
 /* USER CODE END 2 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

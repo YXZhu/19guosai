@@ -1,5 +1,12 @@
 #include "ProtocolUART.h"
 
+#ifndef LOBYTE
+#define LOBYTE(l)           ((BYTE)(l))
+#endif
+
+#ifndef HIBYTE
+#define HIBYTE(l)           ((BYTE)(l >> 8))
+#endif
 
 uint8_t getCheckSum(const uint8_t *pData, int len) {
 	int sum = 0;
@@ -111,11 +118,8 @@ uint8_t sendProtocol(const BYTE *pData, int len) {
 	dataBuf[frameLen] = getCheckSum(dataBuf, frameLen);
 	frameLen++;
 #endif
-	
 	protocolDataSend(dataBuf,frameLen);
-	//HAL_UART_Transmit(&huart1,dataBuf,frameLen,50);
 	return 0;
-	//return UARTCONTEXT->send(dataBuf, frameLen);
 }
 
 

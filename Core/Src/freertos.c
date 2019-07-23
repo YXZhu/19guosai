@@ -31,9 +31,12 @@
 
 #include "servoctrl.h"
 #include "stepper\bsp_StepMotor.h"
+#include "mpu9250.h"
 
 #include "spiffs_user.h"
 #include "ringbuff/ringbuff.h"
+
+#include "cmd.h"
 
 /* USER CODE END Includes */
 
@@ -97,11 +100,8 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 	//sys_spiffs_mount_coreflash();
-	  //≤‚ ‘
-   STEPMOTOR_TIMx_Init();
-   ServoCtrlFreertosInit();
   /* USER CODE END Init */
-		osKernelInitialize();
+	osKernelInitialize();
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -124,7 +124,7 @@ void MX_FREERTOS_Init(void) {
   const osThreadAttr_t defaultTask_attributes = {
     .name = "defaultTask",
     .priority = (osPriority_t) osPriorityLow3,
-    .stack_size = 512
+    .stack_size = 384
   };
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
@@ -136,6 +136,11 @@ void MX_FREERTOS_Init(void) {
     .stack_size = 256
   };
   messageTaskHandle = osThreadNew(MessageTask, NULL, &messageTask_attributes);
+   cmd_init();
+  
+   STEPMOTOR_TIMx_Init();
+   ServoCtrlFreertosInit();
+	MPU9250FreertosInit();
   /* USER CODE END RTOS_THREADS */
 
 }
@@ -148,20 +153,23 @@ void MX_FREERTOS_Init(void) {
   */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
-{              
+{
+    
+                 
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
 
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
+
 	osDelay(3000);
 	KernelInfo();
 	osDelay(100);
 	sys_spiffs_mount_coreflash();
-		//test_spiffs();
-	sys_spiffs_ls();
+	//test_spiffs();
+	//sys_spiffs_ls();
 	//STEPMOTOR_DisMoveAbs(AXIS_X,60,50,50,600);
-	cmd_init();
+	
 	STEPMOTOR_AxisMoveRel(AXIS_X,3200,50,50,200);
   for(;;)
   {
@@ -174,7 +182,7 @@ void StartDefaultTask(void *argument)
 		 // STEPMOTOR_DisMoveRel(AXIS_X,stepptt,step_accel,step_decel,set_speed);
 	  }
 	  //printf("sad");
-	  HAL_GPIO_TogglePin(C13_GPIO_Port,C13_Pin);
+	  //HAL_GPIO_TogglePin(C13_GPIO_Port,C13_Pin);
     osDelay(100);
   }
   /* USER CODE END StartDefaultTask */
@@ -207,7 +215,6 @@ PUTCHAR_PROTOTYPE
   /* e.g. write a character to the USART2 and Loop until the end of transmission */
   //HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
   ringbuff_write(&printf_send_ringbuff,&ch,1);
-	
   //osThreadFlagsSet(messageTaskHandle,MessageTask_Print);
   return ch;
 }

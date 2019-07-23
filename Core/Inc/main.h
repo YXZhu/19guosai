@@ -29,6 +29,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -70,10 +71,13 @@ void Error_Handler(void);
 #define ENA_2_GPIO_Port GPIOB
 #define DIR_2_Pin GPIO_PIN_10
 #define DIR_2_GPIO_Port GPIOB
+#define INT_Pin GPIO_PIN_3
+#define INT_GPIO_Port GPIOB
+#define INT_EXTI_IRQn EXTI3_IRQn
 /* USER CODE BEGIN Private defines */
 
-#define debug 1
-#if debug == 0
+#define debug_printf 1
+#if debug_printf == 0
 	#define printf(fmt, ...) 
 #endif
 

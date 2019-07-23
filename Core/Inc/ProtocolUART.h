@@ -22,13 +22,6 @@ typedef unsigned short  UINT16;
 #define MAKEWORD(low, high)		(((BYTE)(low)) | (((BYTE)(high)) << 8))
 #endif
 
-#ifndef LOBYTE
-#define LOBYTE(l)           ((BYTE)(l))
-#endif
-
-#ifndef HIBYTE
-#define HIBYTE(l)           ((BYTE)(l >> 8))
-#endif
 
 #ifndef TABLESIZE
 #define TABLESIZE(table)    (sizeof(table)/sizeof(table[0]))
@@ -91,3 +84,4 @@ uint8_t sendProtocol(const BYTE *pData, int len);
 #endif
 
 #endif
+

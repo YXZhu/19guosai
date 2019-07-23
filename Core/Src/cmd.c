@@ -112,7 +112,8 @@ void CmdTask(void  * argument)
 			if(time > 1000) time = 0;
 			if(time%3==0)  //调试
 			{
-				CDC_Transmit_FS((uint8_t *)&recd.data,4);
+				printf("%x",recd.data);
+				//CDC_Transmit_FS((uint8_t *)&recd.data,4);
 				//无消息时
 			}
 		}

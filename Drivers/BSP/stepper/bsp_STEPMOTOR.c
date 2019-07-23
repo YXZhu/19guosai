@@ -4,26 +4,7 @@
 #include <math.h>
 
 /* 私有类型定义 --------------------------------------------------------------*/
-//脉冲输出通道
-typedef struct {
-  uint16_t  Pulse_Pin ; 	// 定时器脉冲输出引脚
-  uint32_t  Channel;		  // 定时器通道
-  uint32_t  IT_CCx ;  		// 定时器通道中断使能位
-  uint32_t  Flag_CCx ;    // 定时器SR中断标记位
-}Tim;
-typedef struct {
-  IRQn_Type IRQn;         // 中断编号
-  uint8_t   Active_Level; // 中断引脚电平
-  uint16_t  Pin ; 	      // 引脚号
-  GPIO_TypeDef *Port;
-}Detect_PIN;              // 原点检测引脚
 
-typedef struct{\
-  uint16_t  Ena_Pin ;     //电机使能引脚编号
-  uint16_t  Dir_Pin ;     //电机方向引脚编号
-  GPIO_TypeDef *Dir_Port; //电机方向引脚端口
-  GPIO_TypeDef *Ena_Port; //电机使能引脚端口
-}StepMotor;
 
 /* 私有宏定义 ----------------------------------------------------------------*/
 /* 私有变量 ------------------------------------------------------------------*/
@@ -712,58 +693,58 @@ void HAL_TIM_OC_Callback(uint8_t Axis)
     srd[Axis].step_delay = new_step_delay; // 为下个(新的)延时(脉冲周期)赋值
   }
 }
-/**
-  * 函数功能: 外部中断服务函数
-  * 输入参数: 无
-  * 返 回 值: 无
-  * 说    明: 实现判断是否到达极限和检测原点信号
-  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  uint8_t i = 0;
-  for(i=0; i<1; i++)
-  { 
-//    if(GPIO_Pin==Origin_Detect[i].Pin)
+///**
+//  * 函数功能: 外部中断服务函数
+//  * 输入参数: 无
+//  * 返 回 值: 无
+//  * 说    明: 实现判断是否到达极限和检测原点信号
+//  */
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+//  uint8_t i = 0;
+//  for(i=0; i<1; i++)
+//  { 
+////    if(GPIO_Pin==Origin_Detect[i].Pin)
+////    {
+////      __HAL_GPIO_EXTI_CLEAR_IT(Origin_Detect[i].Pin);	
+////      if( HAL_GPIO_ReadPin(Origin_Detect[i].Port, \
+////                           Origin_Detect[i].Pin)==\
+////          Origin_Detect[i].Active_Level  )          
+////      {										            //以一个脉冲信号的前沿作为近点信号,后沿作为原点信号      
+////        DOG[i] = TRUE;				        //可以是上升沿或者是下降沿
+////      }
+////      else
+////        {
+////          HomeCapture[i] = TRUE;     //后沿信号标记捕获到原点
+////          if(DOG[i] == TRUE)
+////          {
+////            srd[i].run_state = STOP;  //正常情况下回到原点
+////          }
+////        }
+////    }
+//    if(GPIO_Pin == LimPos_Detect[i].Pin)	//正转方向的极限位置检测引脚
 //    {
-//      __HAL_GPIO_EXTI_CLEAR_IT(Origin_Detect[i].Pin);	
-//      if( HAL_GPIO_ReadPin(Origin_Detect[i].Port, \
-//                           Origin_Detect[i].Pin)==\
-//          Origin_Detect[i].Active_Level  )          
-//      {										            //以一个脉冲信号的前沿作为近点信号,后沿作为原点信号      
-//        DOG[i] = TRUE;				        //可以是上升沿或者是下降沿
-//      }
-//      else
-//        {
-//          HomeCapture[i] = TRUE;     //后沿信号标记捕获到原点
-//          if(DOG[i] == TRUE)
-//          {
-//            srd[i].run_state = STOP;  //正常情况下回到原点
-//          }
+//        __HAL_GPIO_EXTI_CLEAR_IT( LimPos_Detect[i].Pin );
+//        if( HAL_GPIO_ReadPin( LimPos_Detect[i].Port,   \
+//                              LimPos_Detect[i].Pin ) ==\
+//        LimPos_Detect[i].Active_Level)
+//        {	
+//          LimPosi[i]	= TRUE;       	 
+//          srd[i].run_state = STOP;		//碰到两个极限都要停下来
 //        }
 //    }
-    if(GPIO_Pin == LimPos_Detect[i].Pin)	//正转方向的极限位置检测引脚
-    {
-        __HAL_GPIO_EXTI_CLEAR_IT( LimPos_Detect[i].Pin );
-        if( HAL_GPIO_ReadPin( LimPos_Detect[i].Port,   \
-                              LimPos_Detect[i].Pin ) ==\
-        LimPos_Detect[i].Active_Level)
-        {	
-          LimPosi[i]	= TRUE;       	 
-          srd[i].run_state = STOP;		//碰到两个极限都要停下来
-        }
-    }
-    if(GPIO_Pin == LimNeg_Detect[i].Pin)	//反转方向的极限位置检测引脚
-    {
-      __HAL_GPIO_EXTI_CLEAR_IT(LimNeg_Detect[i].Pin);
-      if( HAL_GPIO_ReadPin( LimNeg_Detect[i].Port,   \
-                            LimNeg_Detect[i].Pin ) ==\
-      LimNeg_Detect[i].Active_Level )
-      {
-        LimNega[i] = TRUE;      	
-        srd[i].run_state = STOP;		//碰到左右极限都要停下来
-      }
-    }
-  }
-}
+//    if(GPIO_Pin == LimNeg_Detect[i].Pin)	//反转方向的极限位置检测引脚
+//    {
+//      __HAL_GPIO_EXTI_CLEAR_IT(LimNeg_Detect[i].Pin);
+//      if( HAL_GPIO_ReadPin( LimNeg_Detect[i].Port,   \
+//                            LimNeg_Detect[i].Pin ) ==\
+//      LimNeg_Detect[i].Active_Level )
+//      {
+//        LimNega[i] = TRUE;      	
+//        srd[i].run_state = STOP;		//碰到左右极限都要停下来
+//      }
+//    }
+//  }
+//}
 
 /******************* (C) COPYRIGHT 2015-2020 硬石嵌入式开发团队 *****END OF FILE****/
